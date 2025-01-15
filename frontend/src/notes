@@ -1,0 +1,29 @@
+Final Individual assignment
+Titlu proiect: Dezvoltarea unei Aplicații Single Page cu Operații CRUD pentru Obiecte Relaționate și Functionalități Adiționale
+Descriere proiect: Realizați un proiect de dezvoltare a unei aplicații web Single Page App (SPA) pentru a exemplifica operațiile CRUD (Create, Read, Update, Delete) pentru cel puțin două tipuri de obiecte relaționate între ele. Puteți alege oricare din următoarele tipuri de relații: 1 la 1, 1 la mulți sau mulți la mulți. De exemplu, puteți alege să lucrați cu obiecte precum "produse" și "categorii", sau "studenti" și "sporturi practicate".
+Cerințe tehnice:
+Baza de date: Utilizați serviciul Firebase Firestore pentru stocarea datelor. Înregistrările din baza de date trebuie să fie generate aleator folosind o soluție precum Faker, ChanceJS, Falso sau similar.
+Front-end: Dezvoltați partea de front-end a aplicației folosind framework-ul VueJS (Vue 3). Numărul de componente nu este limitat. Operațiile care necesită acces la date din baza de date pot fi realizate direct din interfața Vue.
+Back-end: Creați un API RESTful utilizând NodeJS cu Express. Pentru a efectua orice operație care alterează datele din baza de date, este necesară autentificarea utilizatorilor utilizând token-uri, sesiuni sau autentificarea Firebase.
+Operațiile GET ale API-ului trebuie să returneze date în format JSON și să nu necesite autentificare.
+Punctaj și criterii de evaluare:
+Punctajul maxim pentru proiect este de 50 de puncte, dintr-un total de 100 de puncte pentru nota finală. Pentru a promova, studenții trebuie să obțină cel puțin 25 de puncte pentru proiect și cel puțin 25 de puncte pentru testul grilă.
+Punctajul va fi redus după cum urmează pentru următoarele aspecte:
+Interfața nu este responsivă pe cel puțin 3 praguri (de exemplu, mobile, tabletă, desktop) - Se scad 5 puncte.
+Layout-ul este neîngrijit - Se scad 10 puncte.
+Lipsa autentificării pentru operațiile care alterează baza de date - Se scad 10 puncte.
+Lipsa datelor generate în prealabil (Faker, ChanceJS, Falso sau similar) - Se scad 5 puncte.
+Lipsa unei minime validari a datelor inainte de a fi scrise in baza de date - Se scad 5 puncte.
+Lipsa unei arhitecturi corespunzătoare între front-end și RESTful API - Se scad 25 de puncte.
+Lipsa utilizării corespunzătoare a codurilor de răspuns HTTP  - Se scad 5 puncte.
+Neutilizarea Firebase - Se scad 25 de puncte.
+Utilizarea bazei de date într-un mod preponderent tipic SQL - Se scad 10 puncte.
+Neutilizarea Vue 3 - Se scad 25 de puncte.
+Lipsa utilizării unui sistem de management al stării (Vuex) - Se scad 5 puncte.
+Puncte bonus (fără a afecta condițiile de promovabilitate):
+Implementarea unei liste de elemente cu cel puțin 2 opțiuni de sortare (de exemplu, ASC/DESC după preț, ordine alfabetică după nume) - Se acordă 5 puncte.
+Implementarea unei funcționalități de paginare - Se acordă 5 puncte.
+Deploy-ul proiectului pe un subdomeniu sau domeniu propriu - Se acordă 5 puncte.
+Implementarea funcționalității de încărcare de fișiere - Se acordă 5 puncte.
+Implementarea unei funcționalități de acces in timp real la baza de date - Se acordă 5 puncte.
+Notă importantă: Proiectele trebuie să fie prezentate live în cadrul unui interviu, în timpul căruia veți răspunde la întrebări. Proiectele trimise prin email nu vor fi luate în considerare.
