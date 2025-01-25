@@ -1,32 +1,69 @@
-// import firebase from "firebase/app";
-// import "firebase/firestore";
-// const firebaseConfig = {
-//     apiKey: "AIzaSyCrFIi7PCdl8bvNaMnyuthiqcY96I-Qikg",
-//     authDomain: "project2024tic.firebaseapp.com",
-//     projectId: "project2024tic",
-//     storageBucket: "project2024tic.appspot.com",
-//     messagingSenderId: "905148136435",
-//     appId: "1:905148136435:web:548b0ca6e3956d0fb7f086"
-//   };
+const cors = require("cors");
+const fetch = require("node-fetch");
+const express = require("express");
+const admin = require("firebase-admin");
+var serviceAccount = require("./../project2024tic-firebase-adminsdk-gv9er-47f6e77d5f.json");
 
-//   const firebaseApp=firebase.initializeApp(firebaseConfig);
-//   const timestamp=firebase.firestore.FieldValue.serverTimestamp;
-//   export default firebaseApp.firestore();
+const app = express();
+app.use(cors());
+app.use(express.json());
+const port = 3000;
 
-  // Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// // TODO: Add SDKs for Firebase products that you want to use
-// // https://firebase.google.com/docs/web/setup#available-libraries
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
-// // Your web app's Firebase configuration
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCrFIi7PCdl8bvNaMnyuthiqcY96I-Qikg",
-//   authDomain: "project2024tic.firebaseapp.com",
-//   projectId: "project2024tic",
-//   storageBucket: "project2024tic.appspot.com",
-//   messagingSenderId: "905148136435",
-//   appId: "1:905148136435:web:548b0ca6e3956d0fb7f086"
-// };
+app.get("/hello", (req, res) => {
+  res.send("Hello World!");
+});
 
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
+app.get("/getMyUser", async (req, res) => {
+  console.log("getMyUser");
+
+  try {
+    const token = req.headers.authorization?.split("Bearer ")[1];
+    if (!token) {
+      return res.status(401).send("You must be logged in.");
+    }
+
+    //Decode with firebase, see if the token is all good
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const userId = decodedToken.uid;
+    console.log("userId", userId);
+    const userRef = admin.firestore().collection("users").doc(userId);
+    const doc = await userRef.get();
+    console.log("doc", doc);
+    if (!doc.exists) {
+      console.log("No such document!");
+      return res.status(405).json({ message: "No User data found." });
+    }
+
+    res.json(doc.data());
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ mssage: "Error getting user data" });
+  }
+});
+
+app.get("/getUsers", async (req, res) => {
+  try {
+    const userRef = admin.firestore().collection("users");
+    const snapshot = await userRef.get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ message: "No Users data found." });
+    }
+
+    let usersData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.json(usersData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ mssage: "Error getting users data" });
+  }
+});
+
+app.listen(port, () => console.log(`Server running on port ${port}`));

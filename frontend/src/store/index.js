@@ -12,7 +12,6 @@ export default createStore({
     user: null,
     profileEmail: null,
     profileName: null,
-    profileUsername: null,
     profileId: null,
     profileInitials: null,
   },

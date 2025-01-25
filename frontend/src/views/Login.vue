@@ -50,13 +50,12 @@ export default {
   methods: {
     async signIn() {
       await signInWithEmailAndPassword(auth, this.email, this.password)
-        .then((userCredentials) => {
+        .then(async (userCredentials) => {
           this.$store.commit("setUser", userCredentials.user);
-          this.$router.push({ name: "Home" });
           this.error = false;
           console.log("Logged");
           this.errorMsg = "";
-          console.log(firebase.auth().currentUser.uid);
+                   this.$router.push({ name: "Home" });
         })
         .catch((err) => {
           this.error = true;
