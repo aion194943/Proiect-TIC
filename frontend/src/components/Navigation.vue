@@ -2,9 +2,10 @@
   <header>
     <nav class="container">
       <div class="branding">
-        <router-link class="header" :to="{ name: 'Home' }"
-          >Your Pschitt</router-link
-        >
+        <router-link class="header" :to="{ name: 'Home' }">
+          <v-icon class="logo-icon">mdi-bottle-tonic-outline</v-icon>
+          La Maison des Senteurs
+        </router-link>
       </div>
       <div class="nav-links">
         <ul v-show="!mobile">
@@ -126,16 +127,48 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  background-color: whitesmoke;
-  padding: 0 25px;
-  height: 4em;
-
+  background-color: #fff;
+  padding: 0 15px; // Reduced padding
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 99;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px; // Increased from default
+    max-width: 1400px; // Wider container
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .branding {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #000;
+      font-size: 22px;
+      font-weight: 700; // Made bolder
+      
+      .logo-icon {
+        font-size: 28px;
+        margin-right: 8px; // Adjusted spacing
+      }
+    }
+  }
+
   .link {
-    font-weight: 500;
+    font-weight: 580;
     padding: 0 8px;
     transition: 0.3s color ease-in-out;
+font-size: 20px;
+text-transform: capitalize;
 
     &:hover {
       color: red;
@@ -151,31 +184,46 @@ header {
       align-items: center;
 
       .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #000;
         font-weight: 600;
         font-size: 24px;
-        color: black;
-        text-decoration: none;
-        position: relative;
-        top: 20px;
+      }
+
+      .logo-icon {
+        font-size: 28px;
+        color: #000;
       }
     }
 
     .nav-links {
-      position: relative;
       display: flex;
-      flex: 1;
       align-items: center;
-      justify-content: flex-end;
-      top: 20px;
+      height: 100%;
 
       ul {
-        margin-right: 32px;
-
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        height: 100%;
+        margin: 0;
+        
         .link {
-          margin-right: 32px;
-        }
-        .link:last-child {
-          margin-right: 0;
+          font-weight: 580;
+          padding: 0 8px;
+          transition: 0.3s color ease-in-out;
+          font-size: 18px;
+          text-transform: capitalize;
+          height: 100%;
+          display: flex;
+          align-items: center;
+
+          &:hover {
+            color: red;
+          }
         }
       }
 
@@ -293,11 +341,7 @@ header {
     .link {
       padding: 15px 0;
       color: whitesmoke;
-      // transition: 0.3s color ease-in-out;
-      // &:hover{
-
-      //         color: red;
-      //       }
+     
     }
   }
   .mobile-nav-enter-active,

@@ -28,7 +28,12 @@
           </v-row>
         </v-container>
       </form>
-      <div class="background"></div>
+      <div class="background">
+        <v-btn class="home-btn" text @click="$router.push('/')">
+          <v-icon left>mdi-arrow-left</v-icon>
+          Back to home
+        </v-btn>
+      </div>
     </div>
   </v-app>
 </template>
@@ -137,14 +142,41 @@ export default {
     color: #ffffff; /* White text */
   }
   .background {
+    position: relative;  // Add relative positioning
     display: none;
     flex: 2;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-image: url(https://images.pexels.com/photos/9944432/pexels-photo-9944432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
     width: 100%;
     height: 100%;
+
+    .home-btn {
+      position: fixed;  // Changed to fixed positioning
+      bottom: 40px;
+      left: 30px;
+      color: #000000;
+      font-size: 14px;
+      text-transform: none;
+      letter-spacing: 1px;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0;
+      
+      &:hover {
+        opacity: 0.7;
+        background: transparent !important;
+      }
+
+      .v-icon {
+        margin-right: 4px;
+        font-size: 18px;
+      }
+    }
+
     @media (min-width: 900px) {
-      display: initial;
+     display: block;
     }
   }
 }

@@ -60,7 +60,7 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | Your Pschitt`;
+  document.title = `${to.meta.title} | La Maison des Senteurs`;
   next();
 });
 

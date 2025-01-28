@@ -33,7 +33,12 @@
           </v-row>
         </v-container>
       </form>
-      <div class="background"></div>
+      <div class="background">
+        <v-btn class="home-btn" text @click="$router.push('/')">
+          <v-icon left>mdi-arrow-left</v-icon>
+          Back to home
+        </v-btn>
+      </div>
     </div>
   </v-app>
 </template>
@@ -123,6 +128,35 @@ export default {
 .register {
   h2 {
     max-width: 350px;
+  }
+}
+
+.background {
+  .home-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 30px;
+    color: #000000;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 1px;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+    
+    &:hover {
+      opacity: 0.7;
+      background: transparent !important;
+    }
+
+    .v-icon {
+      margin-right: 4px;
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    display: block;
   }
 }
 </style>

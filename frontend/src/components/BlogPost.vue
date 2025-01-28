@@ -1,32 +1,72 @@
 <template>
-  <div class="landing"> 
+   <div class="landing" :style="{ backgroundImage: `url(${currentImage})` }"> 
      <div class="welcome-square">
      </div>
      <div class="text-box">
         <p class="subtext">Each fragrance unfolds a unique story, inviting you to explore the intricate details and nuances of scents.</p>
      </div>
-  </div>
+  </div>>
+
 </template>
 
 <script>
 export default {
   name: "blogPost",
   props: ["post"],
-  components: {
-   
+  data() {
+    return {
+      images: [
+       'https://images.pexels.com/photos/9944432/pexels-photo-9944432.jpeg',
+        'https://images.unsplash.com/photo-1591925463023-1ca6b0636780',
+        'https://images.pexels.com/photos/3754300/pexels-photo-3754300.jpeg',
+       'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg',
+        'https://images.pexels.com/photos/4466492/pexels-photo-4466492.jpeg'
+      ],
+      currentImageIndex: 0,
+      currentImage: '',
+      rotationInterval: null
+    };
   },
+  mounted() {
+    this.preloadImages();
+    this.currentImage = this.images[this.currentImageIndex];
+    this.startImageRotation();
+  },
+  beforeUnmount() {
+    if (this.rotationInterval) {
+      clearInterval(this.rotationInterval);
+    }
+  },
+  methods: {
+    preloadImages() {
+      this.images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    },
+    startImageRotation() {
+      this.rotationInterval = setInterval(() => {
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+        this.currentImage = this.images[this.currentImageIndex];
+      }, 
+      5000);
+    }
+  }
 };
 </script>
 
+
 <style lang="scss" scoped>
 .landing {
-  background-image: url(https://images.pexels.com/photos/9944432/pexels-photo-9944432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
-  background-size: cover;
+  //background-image: url(https://images.pexels.com/photos/9944432/pexels-photo-9944432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+  background-size:100% 100%;//sau auto? /sau cover? contain?
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
   width: 100vw;
   position: relative;
+  transition: background-image 0.8s ease-in;
+
 }
 .welcome-square {
   background-position: center;
