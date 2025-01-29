@@ -12,9 +12,10 @@
           <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
           <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
           <router-link class="link" :to="{ name: 'CreatePost' }"
-            >Create Post</router-link
+            >(not)Create Post</router-link
           >
-          <router-link class="link" :to="{ name: 'Login' }"
+          <router-link class="link" :to="{ name: 'Something' }">Something</router-link>
+          <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
             >Login/Register</router-link
           >
         </ul>
@@ -34,7 +35,7 @@
             </div>
             <div class="options">
               <div class="option">
-                <router-link class="option" to="#">
+                <router-link class="option" :to="{ name: 'UserProfile' }" @click="profileMenu = false">
                   <p>Profile</p>
                 </router-link>
               </div>
@@ -58,7 +59,7 @@
 
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
-        <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+     <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
         <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
         <router-link class="link" :to="{ name: 'CreatePost' }"
           >Create Post</router-link

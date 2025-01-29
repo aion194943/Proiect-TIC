@@ -19,7 +19,6 @@
           </div>
           <div v-show="error" class="error">{{ this.errorMsg }}</div>
         </div>
-        <!-- Set color="black" for the button -->
         <v-container>
           <v-row justify="center">
             <v-col cols="auto">

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import BlogPost from "@/components/BlogPost.vue";
+import BlogPost from "@/components/Welcome.vue";
 import BlogCard from "@/components/BlogCard.vue";
 import { onMounted, ref, computed } from "vue";
 import { useStore } from "vuex";

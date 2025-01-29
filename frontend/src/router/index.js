@@ -4,6 +4,8 @@ import Blogs from '../views/Blogs.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import CreatePost from '../views/CreatePost.vue'
+import UserProfile from '../views/UserProfile.vue'
+import Something from '../views/Something.vue'
 
 const routes = [
   {
@@ -14,7 +16,8 @@ const routes = [
       title: "Home",
       requiresAuth: false,
     },
-  },
+  },//excuse me 
+  
   {
     path: '/blogs',
     name: 'Blogs',
@@ -51,6 +54,24 @@ const routes = [
       requiresAuth: false,
     },
   },
+  {
+    path: '/profile',
+    name: 'UserProfile',
+    component: UserProfile,
+    meta: {
+      title: 'Profile',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/something',
+    name: 'Something',
+    component: Something,
+    meta: {
+      title: "Something",
+      requiresAuth: false,
+    },
+  },
  
  
 ];
@@ -65,7 +86,3 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
-
-
-
-

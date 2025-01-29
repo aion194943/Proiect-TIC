@@ -1,46 +1,28 @@
 <template>
     <div class="blog-card">
-        <div class="icons">
-            <div class="icon">
-                <v-icon>mdi-pencil</v-icon>
-            </div>
-            <div class="icon">
-                <v-icon>mdi-delete</v-icon>
-            </div>
-        </div>
         <img :src="images[`./${post.blogCoverPhoto}.jpg`]" alt="">
         <div class="info">
-            <h4>
-                {{post.blogTitle}}
-            </h4>
-            <router-link class="link" to="/">
+            <h4>{{post.blogTitle}}</h4>
+            <v-btn 
+                class="view-btn" 
+                @click="$router.push({ name: 'BlogPost', params: { blogid: post.blogID }})"
+                text
+            >
                 View The Post
-                <v-icon>
-                    mdi-arrow-right
-                </v-icon>
-            </router-link>
+                <v-icon right>mdi-arrow-right</v-icon>
+            </v-btn>
         </div>
     </div>
 </template>
-<script>
-import Arrow from "@/assets/Icons/left-arrow.svg"
-import Edit from "@/assets/Icons/edit.svg"
-import Delete from "@/assets/Icons/trash.svg"
 
+<script>
 export default {
     name: 'BlogCard',
-    props:["post"],
-    components:{
-        Arrow, Edit, Delete
-    },
+    props: ["post"],
     data() {
         return {
             images: import.meta.globEager('../assets/blogCards/*.jpg')
         }
-    },
-    mounted() {
-        console.log('post:', this.post);
-        console.log('images:', this.images);
     }
 }
 </script>
@@ -52,9 +34,11 @@ export default {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
-    background-color: rgba(155, 155, 155, 0.384);
+    background-color: white;
     min-height: 420px;
-    transition: .5s ease all;
+    transition: 0.5s ease all;
+    margin-bottom: 32px; // Add bottom margin
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     &:hover {
         transform: rotateZ(-1deg) scale(1.01);
@@ -112,7 +96,7 @@ export default {
         flex-direction: column;
         height: 100%;
         z-index: 3;
-        padding: 32px 16px;
+        padding: 32px 16px 40px; // Increased bottom padding
         color: #000;
 
         h4 {
@@ -124,8 +108,23 @@ export default {
             display: inline;
             align-items: center;
             margin-top: auto;
-            padding-top: 20px;
+            padding-top: 30px; // Increased top padding
 
+        }
+
+        .view-btn {
+            background-color: rgb(24, 24, 24) !important;
+            color: white !important;
+            text-transform: capitalize !important;
+            padding: 0 20px !important;
+            height: 40px !important;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: rgb(45, 45, 45) !important;
+                transform: translateY(-2px);
+            }
         }
     }
 }
