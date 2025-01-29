@@ -15,6 +15,7 @@
       </div>
     </div>
 
+
     <!-- New blog card -->
     <div class="card-container">
       <div class="blog-card">
@@ -26,10 +27,18 @@
         <p class="description">
           {{ truncateText("This is your blog post content that will be truncated after 10 words...") }}
         </p>
+        <span class="read-more">
+          Read more
+          <v-icon small>mdi-arrow-right</v-icon>
+        </span>
+        <span class="preview-text">
+          (this is how your post card will look)
+        </span>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -46,6 +55,7 @@ export default {
 }
 </script>
 
+
 <style lang="scss" scoped>
 .page-container {
   display: flex;
@@ -55,9 +65,11 @@ export default {
   padding: 0 20px;
 }
 
+
 .card-container {
   width: 300px;
 }
+
 
 .blog-card {
   background: white;
@@ -66,15 +78,18 @@ export default {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
 
+
   &:hover {
     transform: translateY(-2px);
   }
+
 
   h3 {
     font-size: 20px;
     margin-bottom: 15px;
     color: #333;
   }
+
 
   .card-meta {
     display: flex;
@@ -84,12 +99,62 @@ export default {
     font-size: 12px;
   }
 
+
   .description {
     font-size: 14px;
     line-height: 1.5;
     color: #444;
   }
+
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 15px;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    cursor: default;
+
+    &:hover {
+      color: #000;
+      gap: 8px;
+     
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: calc(100% - 24px); // Exclude arrow width
+        height: 1px;
+        background-color: #000;
+      }
+    }
+
+
+    .v-icon {
+      font-size: 16px;
+    }
+  }
+
+  .preview-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 15px;
+    color: #2196F3;
+    font-size: 14px;
+    font-style: italic;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #1976D2;
+      gap: 8px;
+    }
+  }
 }
+
 
 .blog-container {
   max-width: 800px;
@@ -99,6 +164,7 @@ export default {
   min-height: 100vh;
 }
 
+
 .blog-post {
   background: white;
   border-radius: 8px;
@@ -107,11 +173,13 @@ export default {
   height: auto;
   overflow-wrap: break-word;
 
+
   h1 {
     font-size: 28px;
     margin-bottom: 20px;
     color: #333;
   }
+
 
   .post-meta {
     display: flex;
@@ -121,10 +189,12 @@ export default {
     font-size: 14px;
   }
 
+
   .post-content {
     font-size: 16px;
     line-height: 1.6;
     color: #444;
+
 
     p {
       margin-bottom: 20px;
@@ -134,19 +204,22 @@ export default {
   }
 }
 
+
 @media (max-width: 768px) {
   .page-container {
     flex-direction: column;
   }
 
+
   .card-container {
     width: 100%;
   }
 
+
   .blog-container {
     padding: 10px;
   }
-  
+ 
   .blog-post {
     padding: 20px;
   }

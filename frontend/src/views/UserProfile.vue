@@ -47,18 +47,12 @@
         </div>
        
         <div v-if="activeSection === 'posts'" class="section posts-section">
-          <h2>My Recent Posts</h2>
-          <div v-if="userPosts.length" class="posts-grid">
-            <div v-for="post in userPosts" :key="post.id" class="post-card">
-             
-            </div>
-          </div>
-          <p v-else>No posts yet</p>
+          <MyRecentPosts />
         </div>
 
 
         <div v-if="activeSection === 'create'" class="section create-section">
-          <CreatePost />
+          <CreatePost class="profile-create" />
         </div>
       </div>
     </div>
@@ -70,13 +64,14 @@
 import { getAuth, signOut } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
-import CreatePost from './CreatePost.vue'
-
+import CreatePost from './CreatePost.vue';
+import MyRecentPosts from '../components/MyRecentPosts.vue';
 
 export default {
   name: 'UserProfile',
   components: {
-    CreatePost
+    CreatePost,
+    MyRecentPosts
   },
   data() {
     return {

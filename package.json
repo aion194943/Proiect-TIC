@@ -4,6 +4,7 @@
     "sass": "^1.70.0"
   },
   "dependencies": {
-    "firebase": "^10.8.0"
+    "firebase": "^10.8.0",
+    "moment": "^2.30.1"
   }
 }
