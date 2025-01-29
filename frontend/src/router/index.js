@@ -6,6 +6,7 @@ import Register from '../views/Register.vue'
 import CreatePost from '../views/CreatePost.vue'
 import UserProfile from '../views/UserProfile.vue'
 import Something from '../views/Something.vue'
+import BlogPost from '../views/BlogPost.vue'
 
 const routes = [
   {
@@ -72,7 +73,12 @@ const routes = [
       requiresAuth: false,
     },
   },
- 
+  {
+    path: '/blog/:id',
+    name: 'BlogPost',
+    component: () => import('@/views/BlogPost.vue'),
+    props: true
+  }
  
 ];
 

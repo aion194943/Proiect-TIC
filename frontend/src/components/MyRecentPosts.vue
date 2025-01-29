@@ -12,10 +12,10 @@
           <p class="description">
             {{ truncateText(post.content) }}
           </p>
-          <a @click="viewPost(post.id)" class="read-more">
+          <span class="read-more" @click="viewPost(post.id)">
             Read more
             <v-icon small>mdi-arrow-right</v-icon>
-          </a>
+          </span>
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
         return moment(date).format('DD/MM/YYYY HH:mm');
       },
       viewPost(postId) {
-        this.$router.push({ name: 'BlogPost', params: { blogid: postId }});
+        this.$router.push({ name: 'BlogPost', params: { id: postId }});
       }
     },
     async mounted() {
