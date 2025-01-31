@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="blog-container">
       <div class="blog-post" v-if="post">
-        <div class="action-buttons">
+        <div class="action-buttons" v-if="isOwner">
           <v-btn icon small class="edit-btn" @click="handleEdit">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
@@ -18,16 +18,16 @@
         <div class="post-content">
           <p>{{ post.content }}</p>
         </div>
-      </div>
-      <div class="save-action">
-        <v-btn 
-          outlined
-          class="save-btn"
-          @click="goToRecentPosts"
-        >
-          <v-icon left>mdi-check</v-icon>
-          Save Changes
-        </v-btn>
+        <div class="save-action" v-if="isOwner">
+          <v-btn 
+            outlined
+            class="save-btn"
+            @click="goToRecentPosts"
+          >
+            <v-icon left>mdi-check</v-icon>
+            Save Changes
+          </v-btn>
+        </div>
       </div>
     </div>
 
@@ -54,15 +54,16 @@
       />
     </v-dialog>
 
-    <div class="card-container">
+    <!-- Preview Card -->
+    <div class="card-container" v-if="post">
       <div class="blog-card">
-        <h3>Preview Card</h3>
+        <h3>{{ post.title }}</h3>
         <div class="card-meta">
-          <span class="author">By {{ post?.author }}</span>
-          <span class="date">{{ formatDate(post?.createdAt) }}</span>
+          <span class="author">By {{ post.author }}</span>
+          <span class="date">{{ formatDate(post.createdAt) }}</span>
         </div>
         <p class="description">
-          {{ truncateText(post?.content || '') }}
+          {{ truncateText(post.content) }}
         </p>
         <span class="read-more">
           Read more
@@ -93,6 +94,11 @@ export default {
       post: null,
       deleteDialog: false,
       editDialog: false
+    }
+  },
+  computed: {
+    isOwner() {
+      return this.post?.userId === this.$store.state.user?.uid;
     }
   },
   methods: {
@@ -130,6 +136,7 @@ export default {
       this.deleteDialog = false;
     },
     async handleUpdate(updatedPost) {
+      if (!this.isOwner) return;
       try {
         await updateDoc(doc(db, 'posts', this.id), updatedPost);
         this.post = { ...this.post, ...updatedPost };
@@ -138,7 +145,11 @@ export default {
         console.error('Error updating post:', error);
       }
     },
-    goToRecentPosts() {
+    async goToRecentPosts() {
+      if (!this.isOwner) {
+        this.$toast.error('Unauthorized to save changes');
+        return;
+      }
       this.$router.push({
         name: 'UserProfile',
         params: { activeSection: 'posts' }

@@ -1,18 +1,8 @@
 <template>
   <div class="home">
     <BlogPost :post="welcomeScreen" />
-    <div class="blog-card-wrap">
-      <div class="container">
-        <h3>Enjoy our best blogs</h3>
-        <div class="blog-cards">
-          <BlogCard
-            :post="post"
-            v-for="(post, index) in SampleBlogCards"
-            :key="index"
-          />
-        </div>
-      </div>
-    </div>
+   
+    <RecentPostsSection/>
   </div>
 </template>
 
@@ -22,9 +12,11 @@ import BlogCard from "@/components/BlogCard.vue";
 import { onMounted, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import RecentPostsSection from '@/components/RecentPostsSection.vue'
+
 export default {
   name: "Home",
-  components: { BlogPost, BlogCard },
+  components: { BlogPost, BlogCard, RecentPostsSection },
   data() {
     return {};
   },
@@ -103,6 +95,12 @@ export default {
     font-weight: 300;
     font-size: 28px;
     margin-bottom: 32px;
+  }
+}
+
+.home {
+  .recent-posts-wrapper {
+    margin: 40px 0;
   }
 }
 </style>

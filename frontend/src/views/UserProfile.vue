@@ -44,6 +44,9 @@
               </v-btn>
             </div>
           </div>
+          <section class="past-activity">
+            <UserLog />
+          </section>
         </div>
        
         <div v-if="activeSection === 'posts'" class="section posts-section">
@@ -66,12 +69,14 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import CreatePost from './CreatePost.vue';
 import MyRecentPosts from '../components/MyRecentPosts.vue';
+import UserLog from '@/components/UserLog.vue';
 
 export default {
   name: 'UserProfile',
   components: {
     CreatePost,
-    MyRecentPosts
+    MyRecentPosts,
+    UserLog
   },
   data() {
     return {
@@ -306,5 +311,12 @@ textarea.post-input {
   cursor: pointer;
   pointer-events: auto;
   z-index: 10;
+}
+
+.past-activity {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 8px;
 }
 </style>

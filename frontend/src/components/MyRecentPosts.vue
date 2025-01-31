@@ -3,7 +3,7 @@
       <div v-if="loading">Loading...</div>
       <div v-else-if="error">{{ error }}</div>
       <div v-else class="card-container">
-        <div v-for="post in userPosts" :key="post.id" class="blog-card">
+        <div v-for="post in filteredPosts" :key="post.id" class="blog-card">
           <h3>{{ post.title }}</h3>
           <div class="card-meta">
             <span class="author">By {{ post.author }}</span>
@@ -28,6 +28,12 @@
   
   export default {
     name: 'MyRecentPosts',
+    computed: {
+      filteredPosts() {
+        if (!this.$store.state.user) return [];
+        return this.userPosts.filter(post => post.userId === this.$store.state.user.uid);
+      }
+    },
     data() {
       return {
         userPosts: [],
