@@ -3,10 +3,10 @@
     <div class="blog-container">
       <div class="blog-post" v-if="post">
         <div class="action-buttons">
-          <v-btn icon small class="edit-btn">
+          <v-btn icon small class="edit-btn" @click="handleEdit">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
-          <v-btn icon small class="delete-btn">
+          <v-btn icon small class="delete-btn" @click="showDeleteDialog">
             <v-icon small>mdi-delete</v-icon>
           </v-btn>
         </div>
@@ -19,7 +19,40 @@
           <p>{{ post.content }}</p>
         </div>
       </div>
+      <div class="save-action">
+        <v-btn 
+          outlined
+          class="save-btn"
+          @click="goToRecentPosts"
+        >
+          <v-icon left>mdi-check</v-icon>
+          Save Changes
+        </v-btn>
+      </div>
     </div>
+
+    <!-- Delete Dialog -->
+    <v-dialog v-model="deleteDialog" max-width="400">
+      <v-card>
+        <v-card-title>Delete Post</v-card-title>
+        <v-card-text>Do you wish to delete this blog?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="deleteDialog = false">Cancel</v-btn>
+          <v-btn color="error" text @click="handleDelete">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Edit Component -->
+    <v-dialog v-model="editDialog" fullscreen hide-overlay>
+      <EditPost 
+        v-if="editDialog" 
+        :post="post" 
+        @close="editDialog = false"
+        @update="handleUpdate"
+      />
+    </v-dialog>
 
     <div class="card-container">
       <div class="blog-card">
@@ -44,16 +77,22 @@
 </template>
 
 <script>
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
 import moment from 'moment';
+import EditPost from './EditPost.vue';
 
 export default {
   name: 'BlogPost',
   props: ['id'],
+  components: {
+    EditPost
+  },
   data() {
     return {
-      post: null
+      post: null,
+      deleteDialog: false,
+      editDialog: false
     }
   },
   methods: {
@@ -74,6 +113,36 @@ export default {
     truncateText(text) {
       const words = text.split(' ');
       return words.length > 10 ? words.slice(0, 10).join(' ') + '...' : text;
+    },
+    showDeleteDialog() {
+      this.deleteDialog = true;
+    },
+    handleEdit() {
+      this.editDialog = true;
+    },
+    async handleDelete() {
+      try {
+        await deleteDoc(doc(db, 'posts', this.id));
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Error deleting post:', error);
+      }
+      this.deleteDialog = false;
+    },
+    async handleUpdate(updatedPost) {
+      try {
+        await updateDoc(doc(db, 'posts', this.id), updatedPost);
+        this.post = { ...this.post, ...updatedPost };
+        this.editDialog = false;
+      } catch (error) {
+        console.error('Error updating post:', error);
+      }
+    },
+    goToRecentPosts() {
+      this.$router.push({
+        name: 'UserProfile',
+        params: { activeSection: 'posts' }
+      });
     }
   },
   created() {
@@ -212,6 +281,26 @@ export default {
 
   .delete-btn {
     color: #F44336 !important;
+  }
+}
+
+.save-action {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.save-btn {
+  min-width: 200px;
+  height: 45px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
   }
 }
 

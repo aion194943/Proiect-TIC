@@ -1,131 +1,116 @@
 <template>
-    <div class="blog-card">
-        <img :src="images[`./${post.blogCoverPhoto}.jpg`]" alt="">
-        <div class="info">
-            <h4>{{post.blogTitle}}</h4>
-            <v-btn 
-                class="view-btn" 
-                @click="$router.push({ name: 'BlogPost', params: { blogid: post.blogID }})"
-                text
-            >
-                View The Post
-                <v-icon right>mdi-arrow-right</v-icon>
-            </v-btn>
-        </div>
+  <div class="blog-card">
+    <h3>{{ post.blogTitle }}</h3>
+    <div class="card-meta">
+      <span class="author">By {{ post.author }}</span>
+      <span class="date">{{ formatDate(post.createdAt) }}</span>
     </div>
+    <p class="description">
+      {{ truncateText(post.content) }}
+    </p>
+    <span class="read-more" @click="$router.push({ name: 'BlogPost', params: { blogid: post.blogID }})">
+      Read more
+      <v-icon small>mdi-arrow-right</v-icon>
+    </span>
+  </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
-    name: 'BlogCard',
-    props: ["post"],
-    data() {
-        return {
-            images: import.meta.globEager('../assets/blogCards/*.jpg')
-        }
+  name: 'BlogCard',
+  props: ["post"],
+  methods: {
+    truncateText(text) {
+      if (!text) return '';
+      const words = text.split(' ');
+      if (words.length > 10) {
+        return words.slice(0, 10).join(' ') + '...';
+      }
+      return text;
+    },
+    formatDate(date) {
+      return moment(date).format('DD/MM/YYYY');
     }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .blog-card {
-    position: relative;
-    cursor: pointer;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 12px;
+    
+    &:hover {
+      color: #007bff;
+    }
+  }
+
+  .metadata {
     display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    background-color: white;
-    min-height: 420px;
-    transition: 0.5s ease all;
-    margin-bottom: 32px; // Add bottom margin
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #666;
+
+    .author, .date {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  .description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #444;
+    margin-bottom: 15px;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #007bff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
 
     &:hover {
-        transform: rotateZ(-1deg) scale(1.01);
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+      color: darken(#007bff, 10%);
+      gap: 8px;
     }
 
-    .icons {
-        display: flex;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 99;
-
-        .icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: white;
-            transition: 0.5s ease all;
-
-            &:hover {
-                background-color: #303030;
-            }
-
-            &:nth-child(1) {
-                margin-right: 8px;
-            }
-
-            .edit, 
-            .delete {
-                pointer-events: none;
-                height:20px;
-                width: auto;
-                max-width: 100%; 
-               
-            }
-          
-        }
+    .v-icon {
+      font-size: 16px;
     }
-
-    img {
-        display: block;
-        border-radius: 8px 8px 0 0;
-        z-index: 1;
-        width: 100%;
-        min-height: 200px;
-        object-fit: cover;
-    }
-
-    .info {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        z-index: 3;
-        padding: 32px 16px 40px; // Increased bottom padding
-        color: #000;
-
-        h4 {
-            padding-bottom: 8px;
-            font-size: 20px;
-            font-weight: 300;
-        }
-        .link{
-            display: inline;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 30px; // Increased top padding
-
-        }
-
-        .view-btn {
-            background-color: rgb(24, 24, 24) !important;
-            color: white !important;
-            text-transform: capitalize !important;
-            padding: 0 20px !important;
-            height: 40px !important;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-
-            &:hover {
-                background-color: rgb(45, 45, 45) !important;
-                transform: translateY(-2px);
-            }
-        }
-    }
+  }
 }
 </style>

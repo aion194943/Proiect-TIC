@@ -65,9 +65,9 @@
           this.loading = false;
         }
       },
-      truncateText(text) {
-        const words = text.split(' ');
-        return words.length > 10 ? words.slice(0, 10).join(' ') + '...' : text;
+      truncateText(text, maxLength = 150) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength).trim() + '...' : text;
       },
       formatDate(date) {
         return moment(date).format('DD/MM/YYYY HH:mm');
@@ -91,7 +91,7 @@
   
   .card-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px 0;
   }
@@ -133,6 +133,64 @@
   
     .read-more {
       display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 15px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+  
+      &:hover {
+        color: #000;
+        gap: 8px;
+      }
+    }
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 300px; // Fixed height
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 48px; // Fixed height for 2 lines
+    }
+  
+    .description {
+      flex-grow: 1;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #444;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 84px; // 4 lines * 21px line-height
+      margin-bottom: 15px;
+    }
+  
+    .metadata {
+      margin-top: auto;
+      font-size: 12px;
+      color: #666;
+    }
+  
+    .read-more {
+      display: flex;
       align-items: center;
       gap: 4px;
       margin-top: 15px;
