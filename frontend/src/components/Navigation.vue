@@ -7,26 +7,15 @@
           La Maison des Senteurs
         </router-link>
       </div>
-
-
-
-
-
-
-
-
-
-
-     
       <div class="nav-links-container">
         <ul v-show="!mobile">
          
-          <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+          <!-- <router-link class="link" :to="{ name: 'Home' }">Home</router-link> -->
           <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-          <router-link class="link" :to="{ name: 'CreatePost' }" >Create a Blog</router-link>
+          <router-link v-if="user" class="link" :to="{ name: 'CreatePost' }" >Create a Blog</router-link>
           <router-link class="link" :to="{ name: 'Something' }">Something</router-link>
         </ul>
-          <router-link v-if="!user" class="link" :to="{ name: 'Login' }">Login/Register</router-link>
+          <router-link v-if="!user" class="link" :to="{ name: 'Login' }">Login</router-link>
        
         <div
           v-if="user"
@@ -45,7 +34,7 @@
             <div class="options">
               <div class="option">
                 <router-link class="option" :to="{ name: 'UserProfile' }" @click="profileMenu = false">
-                  <p>Profile</p>
+                  <p>Profile details</p>
                 </router-link>
               </div>
             </div>
@@ -70,21 +59,25 @@
     />
 
 
+
+
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
-     <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+     <!-- <router-link class="link" :to="{ name: 'Home' }">Home</router-link> -->
         <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-        <router-link class="link" :to="{ name: 'CreatePost' }"
+        <router-link v-if="user" class="link" :to="{ name: 'CreatePost' }"
           >Create Post</router-link
         >
         <router-link class="link" :to="{ name: 'Login' }"
-          >Login/Register</router-link
+          >Login</router-link
         >
       </ul>
     </transition>
   </header>
   <!-- //<img src="/src/assets/Icons/bars-1.svg" alt="Menu Icon" /> -->
 </template>
+
+
 
 
 <script>
@@ -141,12 +134,16 @@ export default {
 </script>
 
 
+
+
 <style lang="scss" scoped>
 header {
   background-color: #fff;
   padding: 0 15px; // Reduced padding
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 99;
+
+
 
 
   .container {
@@ -160,10 +157,14 @@ header {
   }
 
 
+
+
   .branding {
     display: flex;
     align-items: center;
     justify-content: center;
+
+
 
 
     .header {
@@ -183,12 +184,16 @@ header {
   }
 
 
+
+
   .link {
     font-weight: 580;
     padding: 0 8px;
     transition: 0.3s color ease-in-out;
-font-size: 20px;
-text-transform: capitalize;
+    font-size: 18px;
+    text-transform: capitalize;
+
+
 
 
     &:hover {
@@ -197,14 +202,20 @@ text-transform: capitalize;
   }
 
 
+
+
   nav {
     display: flex;
     padding: 25 px 0;
 
 
+
+
     .branding {
       display: flex;
       align-items: center;
+
+
 
 
       .header {
@@ -218,11 +229,15 @@ text-transform: capitalize;
       }
 
 
+
+
       .logo-icon {
         font-size: 28px;
         color: #000;
       }
     }
+
+
 
 
     .nav-links-container {
@@ -231,12 +246,15 @@ text-transform: capitalize;
       height: 100%;
 
 
+
+
       ul {
         display: flex;
         align-items: center;
         gap: 32px;
         height: 100%;
         margin: 0;
+        padding-right: 32px;
        
         .link {
           font-weight: 580;
@@ -249,11 +267,15 @@ text-transform: capitalize;
           align-items: center;
 
 
+
+
           &:hover {
             color: red;
           }
         }
       }
+
+
 
 
       .profile {
@@ -269,19 +291,25 @@ text-transform: capitalize;
         background-color: #303030;
 
 
+
+
         span {
           pointer-events: none;
         }
+
+
 
 
         .profile-menu {
           position: absolute;
           top: 60px;
           right: 0;
-          width: 250px;
+          width: 150px;
           background-color: #303030;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
             0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+
 
 
           .info {
@@ -289,6 +317,8 @@ text-transform: capitalize;
             align-items: center;
             padding: 15px;
             border-bottom: 1px solid #fff;
+
+
 
 
             .initials {
@@ -304,14 +334,20 @@ text-transform: capitalize;
             }
 
 
+
+
             .right {
               flex: 1;
               margin-left: 24px;
 
 
+
+
               p:nth-child(1) {
                 font-size: 14px;
               }
+
+
 
 
               p:nth-child(2),
@@ -320,6 +356,8 @@ text-transform: capitalize;
               }
             }
           }
+
+
 
 
           .options {
@@ -332,6 +370,8 @@ text-transform: capitalize;
               margin-bottom: 12px;
 
 
+
+
               .icon {
                 width: 18px;
                 height: auto;
@@ -340,6 +380,8 @@ text-transform: capitalize;
                 font-size: 14px;
                 margin-left: 12px;
               }
+
+
 
 
               &:last-child {
@@ -352,10 +394,14 @@ text-transform: capitalize;
     }
 
 
+
+
     .mobile-user-menu {
       margin-right: 40px;
     }
   }
+
+
 
 
   .menu-icon {
@@ -366,6 +412,8 @@ text-transform: capitalize;
     width: auto;
     height: 25px;
   }
+
+
 
 
   .mobile-nav {
@@ -381,6 +429,8 @@ text-transform: capitalize;
     left: 0;
 
 
+
+
     .link {
       padding: 15px 0;
       color: whitesmoke;
@@ -393,9 +443,13 @@ text-transform: capitalize;
   }
 
 
+
+
   .mobile-nav-enter {
     transform: translateX(-250px);
   }
+
+
 
 
   .mobile-nav-enter-to {
@@ -403,10 +457,14 @@ text-transform: capitalize;
   }
 
 
+
+
   .mobile-nav-leave-to {
     transform: translateX(-250px);
   }
 }
+
+
 
 
 .nav-user {
@@ -417,10 +475,7 @@ text-transform: capitalize;
   .user-name {
     font-weight: 500;
     color: #333;
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 </style>
-
-
-

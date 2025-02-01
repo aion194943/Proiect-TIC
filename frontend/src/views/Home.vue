@@ -13,17 +13,19 @@ import { onMounted, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import RecentPostsSection from '@/components/RecentPostsSection.vue'
+// import Footer from "@/components/Footer.vue";
 
 export default {
   name: "Home",
+  // components: { BlogPost, BlogCard, RecentPostsSection , Footer},
   components: { BlogPost, BlogCard, RecentPostsSection },
   data() {
     return {};
   },
   computed: {
-    SampleBlogCards() {
-      return this.$store.state.SampleBlogCards;
-    },
+    // SampleBlogCards() {
+    //   return this.$store.state.SampleBlogCards;
+    // },
   },
   setup() {
     const store = useStore();

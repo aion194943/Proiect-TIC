@@ -5,7 +5,7 @@
      <div class="text-box">
         <p class="subtext">Each fragrance unfolds a unique story, inviting you to explore the intricate details and nuances of scents.</p>
      </div>
-  </div>>
+  </div>
 
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="recent-posts-section" ref="postsSection">
-    <h2>Recent Posts</h2>
+    <h2 ref="sectionTitle">Recent Posts</h2>
     <div v-if="loading && !loadingMore">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else class="card-container">
@@ -43,9 +43,9 @@
       bottom
       right
       class="scroll-top-btn"
-      @click="scrollToTop"
+      @click="handleScrollClick"
     >
-      <v-icon>mdi-arrow-up</v-icon>
+      <v-icon>{{ scrollIcon }}</v-icon>
     </v-btn>
   </div>
 </template>
@@ -64,7 +64,13 @@ export default {
       loadingMore: false,
       error: null,
       postsLimit: 6,
-      showScrollTop: false
+      showScrollTop: false,
+      isAboveTitle: false
+    }
+  },
+  computed: {
+    scrollIcon() {
+      return this.isAboveTitle ? 'mdi-arrow-up':'mdi-arrow-down' 
     }
   },
   methods: {
@@ -123,20 +129,36 @@ export default {
         behavior: 'smooth',
         block: 'start'
       });
+    },
+    checkScrollPosition() {
+      const titlePosition = this.$refs.sectionTitle.getBoundingClientRect().top;
+      this.isAboveTitle = window.scrollY > titlePosition;
+    },
+    handleScrollClick() {
+      if (this.isAboveTitle) {
+        this.$refs.sectionTitle.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        this.scrollToTop();
+      }
     }
   },
   mounted() {
     this.fetchRecentPosts();
+    window.addEventListener('scroll', this.checkScrollPosition);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.checkScrollPosition);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .recent-posts-section {
+  
   padding: 50px;
   max-width: 1200px;
   margin: 0 auto;
-
+margin-top: 60px;
   h2 {
     font-size: 24px;
     margin-bottom: 20px;

@@ -139,7 +139,10 @@ export default {
     async handleDelete() {
       try {
         await deleteDoc(doc(db, 'posts', this.id));
-        this.$router.push('/');
+        this.$router.push({ 
+          name: 'UserProfile',
+          params: { section: 'posts' } 
+        });
       } catch (error) {
         console.error('Error deleting post:', error);
       }
