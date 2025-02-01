@@ -1,29 +1,36 @@
-
 <!-- COMPONENT AND VIEW AT THIS MOMENT -->
 
 <template>
   <div class="create-post">
-    <h2>Create New Post</h2>
+    <h2>Create a new blog</h2>
     <div class="post-form">
       <input 
         type="text" 
         v-model="post.title" 
-        placeholder="Post Title"
+        placeholder="Post Title - should be at least one word long"
         class="form-input"
         :class="{ 'error': titleError }"
       />
-      <span v-if="titleError" class="error-message">Title must contain at least one word</span>
+      <!-- <span v-if="titleError" class="error-message">Title must contain at least one word</span> -->
       
       <textarea 
         v-model="post.content" 
-        placeholder="Write your post content here..."
+        placeholder="Write your post content here... should be at least 20 words long"
+           
         class="form-input"
         :class="{ 'error': contentError }"
         rows="6"
       ></textarea>
-      <span v-if="contentError" class="error-message">Content must be at least 10 characters long</span>
+      <span class="word-count" :class="{  'over-limit': wordCount > 400 }">
+        {{ remainingWords }} words remaining
+      </span>
+      <span v-if="contentError" class="error-message">{{ contentError }}</span>
       
-      <v-btn @click="validateAndSubmit" class="submit-btn">
+      <v-btn 
+        @click="validateAndSubmit" 
+        class="submit-btn"
+        :disabled="!isValidWordCount || !post.title"
+      >
         Create Post
       </v-btn>
     </div>
@@ -43,7 +50,18 @@ export default {
         content: ''
       },
       titleError: false,
-      contentError: false
+      contentError: ''
+    }
+  },
+  computed: {
+    wordCount() {
+      return this.post.content.trim().split(/\s+/).length;
+    },
+    remainingWords() {
+      return 400 - this.wordCount;
+    },
+    isValidWordCount() {
+      return this.wordCount >= 20 && this.wordCount <= 400;
     }
   },
   methods: {
@@ -63,8 +81,16 @@ export default {
     },
     validateAndSubmit() {
       this.titleError = this.post.title.trim().length < 1;
-      this.contentError = this.post.content.trim().length < 10;
+      this.contentError = this.post.content.trim().length < 10 ? 'Content must be at least 10 characters long' : '';
       
+      if (this.wordCount < 20) {
+        this.contentError = 'Content must have at least 20 words';
+        return;
+      }
+      if (this.wordCount > 400) {
+        this.contentError = 'Content cannot exceed 400 words';
+        return;
+      }
       if (!this.titleError && !this.contentError) {
         this.submitPost();
       }
@@ -119,6 +145,11 @@ export default {
       background-color: rgb(45, 45, 45) !important;
       transform: translateY(-2px);
     }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 }
 
@@ -131,5 +162,19 @@ export default {
   font-size: 14px;
   margin-bottom: 10px;
   display: block;
+}
+
+.word-count {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+  
+ 
+  
+  &.over-limit {
+    color: #ff4444;
+  }
 }
 </style>

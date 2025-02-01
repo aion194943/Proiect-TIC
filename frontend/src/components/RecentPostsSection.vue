@@ -1,7 +1,7 @@
 <template>
-  <div class="recent-posts-section">
+  <div class="recent-posts-section" ref="postsSection">
     <h2>Recent Posts</h2>
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading && !loadingMore">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else class="card-container">
       <div v-for="post in recentPosts" :key="post.id" class="blog-card">
@@ -19,6 +19,34 @@
         </span>
       </div>
     </div>
+
+    <!-- Load More Button -->
+    <div class="load-more-container" v-if="recentPosts.length >= postsLimit">
+      <v-btn
+        :loading="loadingMore"
+        :disabled="loadingMore"
+        @click="loadMore"
+        class="custom-btn"
+        color="primary"
+        outlined
+      >
+        Load More Posts
+      </v-btn>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <v-btn
+      v-if="showScrollTop"
+      fab
+      dark
+      fixed
+      bottom
+      right
+      class="scroll-top-btn"
+      @click="scrollToTop"
+    >
+      <v-icon>mdi-arrow-up</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -33,7 +61,10 @@ export default {
     return {
       recentPosts: [],
       loading: true,
-      error: null
+      loadingMore: false,
+      error: null,
+      postsLimit: 6,
+      showScrollTop: false
     }
   },
   methods: {
@@ -41,7 +72,7 @@ export default {
       try {
         this.loading = true;
         const postsRef = collection(db, 'posts');
-        const q = query(postsRef, orderBy('createdAt', 'desc'), limit(6));
+        const q = query(postsRef, orderBy('createdAt', 'desc'), limit(this.postsLimit));
         const querySnapshot = await getDocs(q);
         
         this.recentPosts = querySnapshot.docs.map(doc => ({
@@ -55,14 +86,43 @@ export default {
         this.loading = false;
       }
     },
+    async loadMore() {
+      try {
+        this.loadingMore = true;
+        const postsRef = collection(db, 'posts');
+        const q = query(
+          postsRef, 
+          orderBy('createdAt', 'desc'), 
+          limit(this.postsLimit + 6)
+        );
+        const querySnapshot = await getDocs(q);
+        this.recentPosts = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        this.postsLimit += 6;
+        this.showScrollTop = true;
+      } catch (error) {
+        console.error('Error:', error);
+        this.$toast.error('Failed to load more posts');
+      } finally {
+        this.loadingMore = false;
+      }
+    },
     formatDate(date) {
-      return moment(date).format('DD/MM/YYYY');
+      return moment(date).format('DD/MM/YYYY-HH:mm');
     },
     truncateText(text, length = 150) {
       return text.length > length ? text.substring(0, length) + '...' : text;
     },
     viewPost(postId) {
       this.$router.push({ name: 'BlogPost', params: { id: postId }});
+    },
+    scrollToTop() {
+      this.$refs.postsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   },
   mounted() {
@@ -133,6 +193,42 @@ export default {
     &:hover {
       opacity: 0.7;
     }
+  }
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-bottom: 30px;
+
+  .custom-btn {
+    background-color: rgb(24, 24, 24) !important;
+    color: white !important;
+    text-transform: capitalize !important;
+    padding: 0 20px !important;
+    height: 40px !important;
+    transition: all 0.3s ease !important;
+
+    &:hover {
+      background-color: rgb(45, 45, 45) !important;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.scroll-top-btn {
+  border-radius: 40% !important;
+  position: fixed !important;
+  bottom: 60px !important;
+  left: 100px !important;
+  background-color: rgb(255, 255, 255) !important;
+  z-index: 99 !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background-color: rgb(201, 201, 201) !important;
+    transform: translateY(-2px);
   }
 }
 </style>

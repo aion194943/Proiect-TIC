@@ -16,11 +16,10 @@ export default {
   data() {
     return {
       images: [
-       'https://images.pexels.com/photos/9944432/pexels-photo-9944432.jpeg',
-        'https://images.unsplash.com/photo-1591925463023-1ca6b0636780',
-        'https://images.pexels.com/photos/3754300/pexels-photo-3754300.jpeg',
-       'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg',
-        'https://images.pexels.com/photos/4466492/pexels-photo-4466492.jpeg'
+       'https://images.unsplash.com/photo-1618994492420-b4f4d6b4890c?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1591925463023-1ca6b0636780', //ok
+       'https://images.unsplash.com/photo-1533414765079-4bb015a31395?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1572566202186-611ceb4042f0?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       ],
       currentImageIndex: 0,
       currentImage: '',

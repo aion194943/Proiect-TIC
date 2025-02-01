@@ -32,6 +32,9 @@
             auto-grow
             class="mb-4"
           ></v-textarea>
+          <div class="word-counter" :class="{ 'over-limit': wordCount > 400 }">
+            {{ 400 - wordCount }} words remaining
+          </div>
         </v-form>
       </v-card-text>
 
@@ -73,8 +76,14 @@ export default {
       ],
       contentRules: [
         v => !!v || 'Content is required',
-        v => v.length >= 10 || 'Content must be at least 10 characters'
+        v => v.length >= 10 || 'Content must be at least 10 characters',
+        v => this.wordCount <= 400 || 'Content cannot exceed 400 words'
       ]
+    }
+  },
+  computed: {
+    wordCount() {
+      return this.editedPost.content?.trim().split(/\s+/).length || 0;
     }
   },
   methods: {
@@ -100,5 +109,16 @@ export default {
 .v-text-field,
 .v-textarea {
   margin-bottom: 12px;
+}
+
+.word-counter {
+  text-align: right;
+  color: #666;
+  font-size: 12px;
+  margin-top: -12px;
+  
+  &.over-limit {
+    color: red;
+  }
 }
 </style>

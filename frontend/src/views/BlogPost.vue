@@ -1,5 +1,15 @@
 <template>
   <div class="page-container">
+    <!-- Back Button -->
+    <v-btn
+      class="back-btn"
+      text
+      @click="goToBlogs"
+    >
+      <v-icon left>mdi-arrow-left</v-icon>
+      Back to Blogs
+    </v-btn>
+
     <div class="blog-container">
       <div class="blog-post" v-if="post">
         <div class="action-buttons" v-if="isOwner">
@@ -54,8 +64,8 @@
       />
     </v-dialog>
 
-    <!-- Preview Card -->
-    <div class="card-container" v-if="post">
+    <!-- Preview Card - Only visible to owner -->
+    <div class="card-container" v-if="isOwner && post">
       <div class="blog-card">
         <h3>{{ post.title }}</h3>
         <div class="card-meta">
@@ -154,6 +164,9 @@ export default {
         name: 'UserProfile',
         params: { activeSection: 'posts' }
       });
+    },
+    goToBlogs() {
+      this.$router.push({ name: 'Blogs' });
     }
   },
   created() {
@@ -164,14 +177,16 @@ export default {
 
 <style lang="scss" scoped>
 .page-container {
+
   display: flex;
-  gap: 40px;
+  gap: 30px;
   margin: 40px auto;
   max-width: 1200px;
   padding: 0 20px;
 }
 
 .blog-container {
+  
   max-width: 800px;
   width: 100%;
   margin: 40px auto;
@@ -180,9 +195,9 @@ export default {
 }
 
 .blog-post {
-  background: white;
+  background: rgb(250, 249, 249);
   border-radius: 8px;
-  padding: 30px;
+  padding:60px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   height: auto;
   overflow-wrap: break-word;
@@ -267,8 +282,9 @@ export default {
 }
 
 .action-buttons {
+  //padding: 20px;
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
   display: flex;
   gap: 8px;
@@ -312,6 +328,18 @@ export default {
 
   &:hover {
     transform: translateY(-2px);
+  }
+}
+
+.back-btn {
+  margin: 20px 0;
+  color: rgb(24, 24, 24) !important;
+  text-transform: capitalize !important;
+  font-weight: 500 !important;
+  transition: transform 0.3s ease !important;
+
+  &:hover {
+    transform: translateX(-2px);
   }
 }
 
