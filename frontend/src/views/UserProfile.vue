@@ -36,17 +36,15 @@
             <p><strong>Email:</strong> {{ this.$store.state.user?.email }}</p>
             <p><strong>Total Posts:</strong> {{ userPosts.length }}</p>
             <div class="profile-actions">
-              <v-btn @click="resetPassword" class="action-btn">
-                Reset Password
-              </v-btn>
+            
               <v-btn @click="signOut" color="error" class="action-btn">
                 Sign Out
               </v-btn>
             </div>
           </div>
-          <section class="past-activity">
+          <!-- <section class="past-activity">
             <UserLog />
-          </section>
+          </section> -->
         </div>
        
         <div v-if="activeSection === 'posts'" class="section posts-section">
@@ -69,14 +67,13 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import CreatePost from './CreatePost.vue';
 import MyRecentPosts from '../components/MyRecentPosts.vue';
-import UserLog from '@/components/UserLog.vue';
+//import UserLog from '@/components/UserLog.vue';
 
 export default {
   name: 'UserProfile',
   components: {
     CreatePost,
-    MyRecentPosts,
-    UserLog
+    MyRecentPosts
   },
   data() {
     return {
@@ -113,9 +110,7 @@ export default {
       await signOut(auth);
       this.$router.push('/login');
     },
-    resetPassword() {
-      // Add your reset password logic here
-    },
+  
     async createPost() {
       this.activeSection = 'create'
     },

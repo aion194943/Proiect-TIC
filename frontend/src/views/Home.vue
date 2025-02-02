@@ -17,15 +17,12 @@ import RecentPostsSection from '@/components/RecentPostsSection.vue'
 
 export default {
   name: "Home",
-  // components: { BlogPost, BlogCard, RecentPostsSection , Footer},
   components: { BlogPost, BlogCard, RecentPostsSection },
   data() {
     return {};
   },
   computed: {
-    // SampleBlogCards() {
-    //   return this.$store.state.SampleBlogCards;
-    // },
+
   },
   setup() {
     const store = useStore();

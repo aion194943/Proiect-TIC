@@ -44,7 +44,7 @@ export default {
     async confirmDelete() {
       try {
         await deleteDoc(doc(db, 'posts', this.postId));
-        this.$router.push('/');
+        this.$router.push('/profile');
       } catch (error) {
         console.error('Error deleting post:', error);
       }
